@@ -28,11 +28,8 @@ const Tweets = () => {
     const fetchResponse = async () => {
       try {
         const response = await fetchUsers(page, searchValue);
-
-        if (response.length > 0) {
-          setUsers(prevUsers => [...prevUsers, ...response]);
-          setStatus('resolved');
-        }
+        setUsers(prevUsers => [...prevUsers, ...response]);
+        setStatus('resolved');
       } catch (error) {
         setStatus('rejected');
         setError(error.message);
@@ -46,11 +43,8 @@ const Tweets = () => {
     const fetchResponsePages = async () => {
       try {
         const response = await fetchUsersAmount(searchValue);
-
-        if (response.length > 0) {
-          setUsersAmount(response.length);
-          setStatus('resolved');
-        }
+        setUsersAmount(response.length);
+        setStatus('resolved');
       } catch (error) {
         setStatus('rejected');
         setError(error.message);
