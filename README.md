@@ -1,1 +1,2 @@
 React application for managing Social Network.
+The application publishes user cards with the number of tweets and followers. By clicking on the button, you can become a follower. Filtered by status. The application consists of two pages: Home and Gallary.

@@ -114,7 +114,9 @@ const Tweets = () => {
               Go back
             </button>
           </Link>
-          {users.length < usersAmount && <Button onClick={loadMore} />}
+          {users.length > 0 && users.length < usersAmount && (
+            <Button onClick={loadMore} />
+          )}
         </div>
       </div>
     );
