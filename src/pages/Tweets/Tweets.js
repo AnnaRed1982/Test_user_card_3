@@ -19,6 +19,8 @@ const Tweets = () => {
   const [status, setStatus] = useState('ideal');
   const [usersAmount, setUsersAmount] = useState(0);
   const [page, setPage] = useState(1);
+  const [searchValue, setSearchValue] = useState('all');
+  // const [filterStatus, setFilterStatus] = useState(false);
 
   const location = useLocation();
   const backLinkHref = useRef(location.state?.from ?? '/');
@@ -26,7 +28,7 @@ const Tweets = () => {
   useEffect(() => {
     const fetchResponse = async () => {
       try {
-        const response = await fetchUsers(page);
+        const response = await fetchUsers(page, searchValue);
 
         if (response.length === 0) {
           setStatus(null);
@@ -43,12 +45,12 @@ const Tweets = () => {
     };
 
     fetchResponse();
-  }, [page]);
+  }, [page, searchValue]);
 
   useEffect(() => {
     const fetchResponsePages = async () => {
       try {
-        const response = await fetchUsersAmount();
+        const response = await fetchUsersAmount(searchValue);
 
         if (response.length === 0) {
           setStatus(null);
@@ -56,7 +58,7 @@ const Tweets = () => {
         }
         if (response.length > 0) {
           setUsersAmount(response.length);
-          setStatus('resolved');
+          // setStatus('resolved');
         }
       } catch (error) {
         setStatus('rejected');
@@ -65,7 +67,7 @@ const Tweets = () => {
     };
 
     fetchResponsePages();
-  }, []);
+  }, [searchValue]);
 
   const userVote = async (id, vote, followers) => {
     try {
@@ -85,6 +87,12 @@ const Tweets = () => {
     setPage(prevPage => prevPage + 1);
   };
 
+  const handleSelect = event => {
+    setUsers([]);
+    setPage(1);
+    setSearchValue(event.target.value);
+  };
+
   if (status === 'rejected') {
     return (
       <>
@@ -95,6 +103,17 @@ const Tweets = () => {
   if (status === 'resolved') {
     return (
       <div className="container">
+        <label>
+          <select
+            value={searchValue}
+            className={css.select}
+            onChange={handleSelect}
+          >
+            <option value="all">All</option>
+            <option value="follow">Follow</option>
+            <option value="followings">Following</option>
+          </select>
+        </label>
         <UsersList users={users} userVote={userVote} />
         <div className={css.buttonContainer}>
           <Link to={backLinkHref.current} style={{ textDecoration: 'none' }}>

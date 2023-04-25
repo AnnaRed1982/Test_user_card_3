@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div className="container">
       <div className={css.background}>
-        <h1 className={css.title}>The best Social Network</h1>
+        <h1 className={css.title}>The Best Social Network</h1>
 
         <Link to="/tweets" state={{ from: location }} className={css.button}>
           Start
