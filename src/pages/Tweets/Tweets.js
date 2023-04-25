@@ -80,19 +80,21 @@ const Tweets = () => {
       }
       if (searchValue === 'follow') {
         const response = await fetchUserVoteUpdate(id, vote, followers);
+        setUsersAmount((users.length -= 1));
         const result = users
           .map(user => (user.id === response.id ? response : user))
           .filter(user => user.vote === false);
-        setUsersAmount(result.length);
+
         setUsers(result);
         setStatus('resolved');
       }
       if (searchValue === 'followings') {
         const response = await fetchUserVoteUpdate(id, vote, followers);
+        setUsersAmount((users.length -= 1));
         const result = users
           .map(user => (user.id === response.id ? response : user))
           .filter(user => user.vote === true);
-        setUsersAmount(result.length);
+
         setUsers(result);
         setStatus('resolved');
       }
