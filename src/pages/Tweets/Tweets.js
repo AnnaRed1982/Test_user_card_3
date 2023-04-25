@@ -62,23 +62,13 @@ const Tweets = () => {
 
   const userVote = async (id, vote, followers) => {
     try {
-      if (searchValue === 'all') {
-        const response = await fetchUserVoteUpdate(id, vote, followers);
-        const result = users.map(user =>
-          user.id === response.id ? response : user
-        );
-        setUsers(result);
-        setStatus('resolved');
-      }
+      await fetchUserVoteUpdate(id, vote, followers);
+      const response = await fetchUsersAmount(searchValue);
+      setUsersAmount(response.length);
+      let length = users.length;
 
-      if (searchValue === 'followings' || searchValue === 'follow') {
-        const response = await fetchUserVoteUpdate(id, vote, followers);
-        let length = usersAmount - 1;
-        setUsersAmount(length);
-
-        setUsers(users.filter(user => response.id !== user.id));
-        setStatus('resolved');
-      }
+      setUsers(response.slice(0, length));
+      setStatus('resolved');
     } catch (error) {
       setStatus('rejected');
       setError(error.message);
@@ -111,21 +101,9 @@ const Tweets = () => {
             className={css.select}
             onChange={handleSelect}
           >
-            <option value="all" disabled={searchValue === 'all' ? true : false}>
-              All
-            </option>
-            <option
-              value="follow"
-              disabled={searchValue === 'follow' ? true : false}
-            >
-              Follow
-            </option>
-            <option
-              value="followings"
-              disabled={searchValue === 'followings' ? true : false}
-            >
-              Following
-            </option>
+            <option value="all">All</option>
+            <option value="follow">Follow</option>
+            <option value="followings">Following</option>
           </select>
         </label>
         <UsersList users={users} userVote={userVote} />
