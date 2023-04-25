@@ -111,9 +111,21 @@ const Tweets = () => {
             className={css.select}
             onChange={handleSelect}
           >
-            <option value="all">All</option>
-            <option value="follow">Follow</option>
-            <option value="followings">Following</option>
+            <option value="all" disabled={searchValue === 'all' ? true : false}>
+              All
+            </option>
+            <option
+              value="follow"
+              disabled={searchValue === 'follow' ? true : false}
+            >
+              Follow
+            </option>
+            <option
+              value="followings"
+              disabled={searchValue === 'followings' ? true : false}
+            >
+              Following
+            </option>
           </select>
         </label>
         <UsersList users={users} userVote={userVote} />
