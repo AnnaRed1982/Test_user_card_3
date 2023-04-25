@@ -70,17 +70,8 @@ const Tweets = () => {
         setUsers(result);
         setStatus('resolved');
       }
-      if (searchValue === 'follow') {
-        const response = await fetchUserVoteUpdate(id, vote, followers);
 
-        const result = users
-          .map(user => (user.id === response.id ? response : user))
-          .filter(user => user.vote === false);
-
-        setUsers(result);
-        setStatus('resolved');
-      }
-      if (searchValue === 'followings') {
+      if (searchValue === 'followings' || searchValue === 'follow') {
         const response = await fetchUserVoteUpdate(id, vote, followers);
         let length = usersAmount - 1;
         setUsersAmount(length);
