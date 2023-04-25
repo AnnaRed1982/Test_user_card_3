@@ -97,7 +97,7 @@ const Tweets = () => {
           >
             <option value="all">All</option>
             <option value="follow">Follow</option>
-            <option value="followings">Following</option>
+            <option value="followings">Followings</option>
           </select>
         </label>
         <UsersList users={users} userVote={userVote} />
