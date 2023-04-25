@@ -20,7 +20,6 @@ const Tweets = () => {
   const [usersAmount, setUsersAmount] = useState(0);
   const [page, setPage] = useState(1);
   const [searchValue, setSearchValue] = useState('all');
-  // const [filterStatus, setFilterStatus] = useState(false);
 
   const location = useLocation();
   const backLinkHref = useRef(location.state?.from ?? '/');
@@ -58,7 +57,7 @@ const Tweets = () => {
         }
         if (response.length > 0) {
           setUsersAmount(response.length);
-          // setStatus('resolved');
+          setStatus('resolved');
         }
       } catch (error) {
         setStatus('rejected');
@@ -71,12 +70,32 @@ const Tweets = () => {
 
   const userVote = async (id, vote, followers) => {
     try {
-      const response = await fetchUserVoteUpdate(id, vote, followers);
-      const result = users.map(user =>
-        user.id === response.id ? response : user
-      );
-      setUsers(result);
-      setStatus('resolved');
+      if (searchValue === 'all') {
+        const response = await fetchUserVoteUpdate(id, vote, followers);
+        const result = users.map(user =>
+          user.id === response.id ? response : user
+        );
+        setUsers(result);
+        setStatus('resolved');
+      }
+      if (searchValue === 'follow') {
+        const response = await fetchUserVoteUpdate(id, vote, followers);
+        const result = users
+          .map(user => (user.id === response.id ? response : user))
+          .filter(user => user.vote === false);
+        setUsersAmount(result.length);
+        setUsers(result);
+        setStatus('resolved');
+      }
+      if (searchValue === 'followings') {
+        const response = await fetchUserVoteUpdate(id, vote, followers);
+        const result = users
+          .map(user => (user.id === response.id ? response : user))
+          .filter(user => user.vote === true);
+        setUsersAmount(result.length);
+        setUsers(result);
+        setStatus('resolved');
+      }
     } catch (error) {
       setStatus('rejected');
       setError(error.message);

@@ -34,10 +34,9 @@
 .button:hover,
 .button:focus {
   background-color: #ffba00;
-  color: #373737;
 }
-.select{
- display: flex;
+.select {
+  display: flex;
   justify-content: center;
   align-items: center;
   padding: 14px 28px;
