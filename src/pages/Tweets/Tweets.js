@@ -29,10 +29,6 @@ const Tweets = () => {
       try {
         const response = await fetchUsers(page, searchValue);
 
-        // if (response.length === 0) {
-        //   setStatus(null);
-        //   // return alert('Sorry, there are no users in database');
-        // }
         if (response.length > 0) {
           setUsers(prevUsers => [...prevUsers, ...response]);
           setStatus('resolved');
@@ -51,10 +47,6 @@ const Tweets = () => {
       try {
         const response = await fetchUsersAmount(searchValue);
 
-        // if (response.length === 0) {
-        //   // alert('Sorry, there are no users in database');
-        //   setStatus(null);
-        // }
         if (response.length > 0) {
           setUsersAmount(response.length);
           setStatus('resolved');
@@ -80,8 +72,7 @@ const Tweets = () => {
       }
       if (searchValue === 'follow') {
         const response = await fetchUserVoteUpdate(id, vote, followers);
-        let length = usersAmount;
-        setUsersAmount((length -= 1));
+
         const result = users
           .map(user => (user.id === response.id ? response : user))
           .filter(user => user.vote === false);
@@ -91,13 +82,10 @@ const Tweets = () => {
       }
       if (searchValue === 'followings') {
         const response = await fetchUserVoteUpdate(id, vote, followers);
-        let length = usersAmount;
-        setUsersAmount((length -= 1));
-        const result = users
-          .map(user => (user.id === response.id ? response : user))
-          .filter(user => user.vote === true);
+        let length = usersAmount - 1;
+        setUsersAmount(length);
 
-        setUsers(result);
+        setUsers(users.filter(user => response.id !== user.id));
         setStatus('resolved');
       }
     } catch (error) {
